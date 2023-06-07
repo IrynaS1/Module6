@@ -10,6 +10,20 @@ const p = document.createElement('p');
 p.classList.add('text');
 block.append(p);
 
+const debounce = (fn, ms) => {
+	let timeOut;
+
+	return function () {
+		const fnCall = () => {
+			fn.apply(this, arguments);
+		};
+
+		clearTimeout(timeOut);
+
+		timeOut = setTimeout(fnCall, ms);
+	};
+};
+
 const inputElement = document.querySelector('.input');
 
 const updateValue = () => {
@@ -20,5 +34,7 @@ const updateValue = () => {
 	}, 300);
 };
 
-inputElement.addEventListener('input', updateValue);
+const updateValueDebounce = debounce(updateValue, 300);
+
+inputElement.addEventListener('input', updateValueDebounce);
 
